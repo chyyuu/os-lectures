@@ -21,9 +21,9 @@ IPC OS (IOS)
 
 向勇 陈渝 李国良 任炬 
 
-2024年春季
+2025年春季
 
-[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/ewvhdy3epbwbkn3n)
+[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?)
 
 
 ---
@@ -295,7 +295,7 @@ pub fn main() -> i32 {
 
 ##### 管道：Unix 中最引人注目的发明
 
-- 管道的概念来自贝尔实验室的Douglas McIlroy，他在1964年写的一份内部文件中，提出了把多个程序“像花园水管一样”串连并拧在一起的想法，这样数据就可以在不同程序中流动。
+- 管道的概念来自贝尔实验室的Douglas McIlroy，他在1964年写的一份内部文件中，提出了把多个程序“**像花园水管一样**”串连并拧在一起的想法，让数据在不同程序中流动。
 - 大约在1972年下半年，Ken Thompson在听了Douglas McIlroy关于管道的唠叨后，灵机一动，迅速把管道机制实现在UNIX中。
  
 ![bg right:35% 90%](figs/douglas-mcllroy.jpg)
@@ -913,6 +913,7 @@ fn sys_sigprocmask(mask: u32) -> isize {
 
 ![bg right 80%](figs/velociraptor.png)
 
+<!--
 ---
 
 ### 课程实验四 文件系统与进程间通信
@@ -922,5 +923,5 @@ fn sys_sigprocmask(mask: u32) -> isize {
 * 实验任务描述 
     * [rCore](https://learningos.github.io/rCore-Tutorial-Guide-2023A/chapter6/4exercise.html#id1)
     * [uCore](https://learningos.github.io/uCore-Tutorial-Guide-2023A/chapter6/5exercise.html#id3)
-<!--* 实验提交要求
+* 实验提交要求
     * 2023年11月26日；-->

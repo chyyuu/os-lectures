@@ -24,7 +24,7 @@ backgroundColor: white
 <br>
 <br>
 
-2024年春季
+2025年春季
 
 ---
 

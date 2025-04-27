@@ -22,7 +22,7 @@ backgroundColor: white
 <br>
 <br>
 
-2024年春季
+2025年春季
 
 
 ---
@@ -45,6 +45,8 @@ backgroundColor: white
 ##### 主流CPU比较
 <!-- 主要说明x86, arm由于兼容性，历史原因，导致设计实现复杂，riscv简洁/灵活/可扩展，便于学习掌握并用于写OS -->
 ![w:1150](figs/mainstream-isas.png)
+
+<!-- “encoding”通常指的是指令编码（instruction encoding） 决定了指令的结构和执行方式-->
 
 ---
 ##### 主流CPU比较
@@ -91,28 +93,22 @@ backgroundColor: white
 
 ---
 ##### RISC-V 系统模式
+
+与系统编程相关的RISC-V模式
 ![w:800](figs/rv-privil-arch.png)
 - ABI/SBI/HBI:Application/Supervisor/Hypervisor Bianry Interface
 - AEE/SEE/HEE:Application/Superv/Hyperv Execution Environment
 - HAL：Hardware Abstraction Layer
 - Hypervisor，虚拟机监视器（virtual machine monitor，VMM）
-- RISC-V 系统模式 即 与系统编程相关的RISC-V模式 
-
 
 ---
 ##### RISC-V相关术语
-- 应用执行环境（Application Execution Environment, AEE)
-- 应用程序二进制接口（Application Binary Interface, ABI)
-- 管理员二进制接口（Supervisor Binary Interface, SBI)
-- 管理员执行环境（Supervisor Execution Environment, SEE)
-- Hypervisor：虚拟机监视器
-- Hypervisor二进制接口（Hypervisor Binary interface，HBI）
-- Hypervisor执行环境（Hypervisor Execution Environment, HEE)
-
-
-
-
-
+- 应用执行环境 (Application Execution Environment, AEE)
+- 应用程序二进制接口 (Application Binary Interface, ABI)
+- 管理员二进制接口 (Supervisor Binary Interface, SBI)
+- 管理员执行环境 (Supervisor Execution Environment, SEE)
+- Hypervisor二进制接口 (Hypervisor Binary interface，HBI)
+- Hypervisor执行环境 (Hypervisor Execution Environment, HEE)
 
 ---
 ##### RISC-V 系统模式：单应用场景
@@ -135,8 +131,6 @@ backgroundColor: white
 ![w:900](figs/rv-privil-arch.png)
 - 右侧是虚拟机场景，可支持**多个操作系统**
 
-
-
 ---
 ##### RISC-V 系统模式：应用场景
 ![w:900](figs/rv-privil-arch.png)
@@ -146,10 +140,9 @@ backgroundColor: white
 - U+S+H+M Mode：数据中心服务器
 
 ---
-##### RISC-V 系统模式：硬件线程
+##### RISC-V 系统模式：控制权接管
 ![w:900](figs/rv-privil-arch.png)
 - 特权级是为不同的软件栈部件提供的一种保护机制
-- **硬件线程**（hart，即CPU core）是运行在某个特权级上（CSR配置）
 - 当处理器执行当前特权模式不允许的操作时将产生一个**异常**，这些异常通常会产生自陷（trap）导致**下层执行环境接管控制权**
 
 ---
@@ -195,9 +188,6 @@ backgroundColor: white
 
 为何有这**4种模式**? 它们的**区别和联系**是啥？
 
-
-
-
 ---
 ##### RISC-V 系统模式：执行环境
 | 执行环境  |  编码 | 含义  |  跨越特权级 |
@@ -220,8 +210,8 @@ backgroundColor: white
 ##### RISC-V 系统模式：用户态
 ![w:900](figs/rv-privil-arch.png)
 - U-Mode （User Mode，用户模式、用户态）
+  - **应用程序运行**的用户态CPU执行模式
   - **非特权**级模式（Unprivileged Mode）：基本计算 
-  - 是**应用程序运行**的用户态CPU执行模式
   - 不能执行特权指令，不能直接影响其他应用程序执行
 
 
@@ -229,25 +219,25 @@ backgroundColor: white
 ##### RISC-V 系统模式：内核态
 ![w:800](figs/rv-privil-arch.png)
 - S-Mode（Supervisor Mode, Kernel Mode，内核态，内核模式）
+  - **操作系统运行**的内核态CPU执行模式
   - 在内核态的操作系统具有足够强大的**硬件控制能力**
   - 特权级模式（Privileged Mode）：**限制APP**的执行与内存访问 
-  - 是**操作系统运行**的内核态CPU执行模式
   - 能执行内核态特权指令，能直接**影响应用程序执行**
 
 ---
 ##### RISC-V 系统模式：H-Mode
 ![w:900](figs/rv-privil-arch.png)
 - H-Mode(Hypervisor Mode, Virtual Machine Mode，虚拟机监控器)
-  - 特权级模式：**限制OS**访问的内存空间 
-  - 是**虚拟机监控器运行**的Hypervisor Mode CPU执行模式，能执行H-Mode特权指令，能直接**影响OS执行**
-
+  - **虚拟机监控器运行**的Hypervisor Mode CPU执行模式
+  - 特权级模式：**限制OS**访问的内存空间的**访问范围**和**访问方式**
+  - 可执行H-Mode特权指令，能直接**影响OS执行**
 
 ---
 ##### RISC-V 系统模式：M-Mode
 ![w:900](figs/rv-privil-arch.png)
 - M-Mode（Machine Mode, Physical Machine Mode）
+  - **Bootloader/BIOS运行**的Machine Mode CPU执行模式
   - 特权级模式：**控制物理内存**，直接关机 
-  - 是**Bootloader/BIOS运行**的Machine Mode CPU执行模式
   - 能执行M-Mode特权指令，能直接影响上述其他软件的执行
 
 ---
@@ -304,13 +294,12 @@ backgroundColor: white
 ##### 通过CSR寄存器实现的隔离
 OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 - 设置 CSR(控制状态寄存器) 实现隔离
-  - 权力：防止应用访问系统管控相关寄存器
-    - **地址空间配置**寄存器：mstatus/sstatus CSR(中断及状态)
+  - 控制：防止应用访问系统管控相关寄存器
+    - **地址空间控制**寄存器：mstatus/sstatus CSR(中断及状态)
   - 时间：防止应用长期使用 100％的 CPU
     - **中断配置**寄存器：sstatus/stvec CSR（中断跳转地址）
   - 数据：防止应用破坏窃取数据
-    - **地址空间相关**寄存器：sstatus/stvec/satp CSR （分页系统）
-
+    - **地址空间配置**寄存器：sstatus/stvec/satp CSR （分页系统）
 
 ---
 ##### CSR寄存器功能
@@ -386,22 +375,19 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 
 ---
 ##### U-Mode编程：第一个例子“hello world”
-[在用户态打印”hello world”的小例子](https://github.com/chyyuu/os_kernel_lab/tree/v4-kernel-sret-app-ecall-kernel/os/src) 大致执行流
+在用户态打印”hello world”的[小例子](https://github.com/chyyuu/os_kernel_lab/tree/v4-kernel-sret-app-ecall-kernel/os/src) 大致执行流
 
 ![w:1000](figs/print-app.png)
 
-
 ---
 ##### 第一个例子的启动执行
-[在用户态打印“hello world”的小例子](https://github.com/chyyuu/os_kernel_lab/blob/v4-kernel-sret-app-ecall-kernel/os/src/main.rs#L302) 启动执行流
+在用户态打印“hello world”的[小例子](https://github.com/chyyuu/os_kernel_lab/blob/v4-kernel-sret-app-ecall-kernel/os/src/main.rs#L302) 启动执行流
 
 ![w:1000](figs/boot-print-app.png)
 
-
-
 ---
 ##### 第二个例子：在用户态执行特权指令
-[在用户态执行特权指令的小例子](https://github.com/chyyuu/os_kernel_lab/blob/v4-illegal-priv-code-csr-in-u-mode-app-v2/os/src/main.rs#L306) 启动与执行流程
+在用户态执行特权指令的[小例子](https://github.com/chyyuu/os_kernel_lab/blob/v4-illegal-priv-code-csr-in-u-mode-app-v2/os/src/main.rs#L306) 启动与执行流程
 
 ![w:1000](figs/boot-priv-code-app.png)
 
@@ -415,13 +401,15 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
   - ``sret`` 监管者模式返回
   - ``wfi`` 等待中断 (wait for interupt)
   - ``sfence.vma`` 虚拟地址屏障(barrier)指令，用于虚拟内存无效和同步
-  
+<!--修改页表时，修改上下文时，刷新同步
+它确保在页表更新或进程切换后，CPU 不会使用过期的地址映射信息
+-->
 - 很多其他的系统管理功能通过读写控制状态寄存器来实现
 
 注:``fence.i``是i-cache屏障(barrier)指令，非特权指令，属于 “Zifencei”扩展规范，用于i-cache和d-cache一致性
+<!--指令缓存一致性-->
 
 <!-- 在执行 fence.i 指令之前，对于同一个硬件线程(hart)， RISC-V 不保证用存储指令写到内存指令区的数据可以被取指令取到。使用fence.i指令后，对同一hart，可以确保指令读取是最近写到内存指令区域的数据。但是，fence.i将不保证别的riscv hart的指令读取也能够满足读写一致性。如果要使写指令内存空间对所有的hart都满足一致性要求，需要执行fence指令。 -->
-
 
 ---
 
@@ -444,7 +432,7 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 2. RISC-V系统模式
 3. RISC-V系统编程：用户态编程
 ### 4. RISC-V系统编程：M-Mode编程
-5. RISC-V系统编程：内核编程
+1. RISC-V系统编程：内核编程
 
 </div>
 
@@ -478,7 +466,6 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 5. **跳转**到stvec CSR设置的地址继续执行
 -->
 
-
 ---
 ##### 中断/异常的硬件响应
 - 硬件
@@ -492,7 +479,6 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 
 - 中断向量表：中断--中断服务，异常--异常服务，系统调用
 
-
 ---
 ##### 中断/异常开销
 1. 建立中断/异常/系统调用号与对应服务的开销；
@@ -505,13 +491,13 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 ##### M-Mode的中断控制和状态寄存器
 
 - mtvec(MachineTrapVector)保存发生中断/异常时要跳转到的**中断处理例程入口地址**
-- mepc(Machine Exception PC)指向**发生中断/异常时的指令**
-- mcause(Machine Exception Cause)指示发生**中断/异常的种类**
 - mie(Machine Interrupt Enable)中断**使能**寄存器
 - mip(Machine Interrupt Pending)中断**请求**寄存器
+- mstatus(Machine Status)保存全局中断以及其他的**状态**
+- mepc(Machine Exception PC)指向**发生中断/异常时的指令**
+- mcause(Machine Exception Cause)指示发生**中断/异常的种类**
 - mtval(Machine Trap Value)保存陷入(trap)**附加信息**
 - mscratch(Machine Scratch)它暂时存放一个字大小的**数据**
-- mstatus(Machine Status)保存全局中断以及其他的**状态**
 
 <!-- mtval(Machine Trap Value)保存陷入(trap)附加信息:地址例外中出错的地址、发生非法指令例外的指令本身；对于其他异常，值为0。 -->
 ---
@@ -524,9 +510,7 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
   - MPP表示变化之前是S-Mode还是U-Mode还是M-Mode
   PP：Previous Privilege
 
-
 ![w:1000](figs/mstatus.png)
-
 
 ---
 ##### mcause CSR寄存器
@@ -640,14 +624,15 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 - **中断/异常的指令的 PC** 被保存在 mepc 中， PC 被设置为 mtvec。
    - 对于异常，mepc指向导致异常的指令
    - 对于中断，mepc指向中断处理后应该恢复执行的位置
-- 根据**中断/异常来源**设置 mcause，并将 mtval 设置为出错的地址或者其它适用于特定异常的信息字。
+- 根据**中断/异常来源**设置 mcause（用于标识中断和异常的原因）
+- 并将 mtval 设置为出错的地址或者其它适用于特定异常的信息字（提供了关于出错的具体信息）。
 
 ---
 ##### M-Mode中断/异常的硬件响应
-
+- mstatus负责控制特权级别、全局中断使能和其他关键系统功能
 - 把控制状态寄存器 mstatus[MIE位]置零以**禁用中断**，并**保留先前的 MIE 值**到 MPIE 中。
   - SIE控制S-Mode下全局中断，MIE控制M-Mode下全局中断；
-  - SPIE记录的是SIE中断之前的值，MPIE记录的是MIE中断之前的值）
+  - SPIE记录SIE中断之前的值，MPIE记录MIE中断之前的值）
 - **发生异常之前的权限模式**保留在 mstatus 的 MPP 域中，再把权限模式更改为M
   - MPP表示变化之前的特权级别是S、M or U-Mode
 - **跳转**到mtvec CSR设置的地址继续执行
@@ -690,7 +675,8 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 ---
 ##### M-Mode中断/异常处理的控制权移交
 - 默认情况下，所有的中断/异常都使得控制权移交到 M-Mode的中断/异常处理例程
-- M-Mode的**中断/异常处理例程**可以将中断/异常重新**导向 S-Mode**，但是这些额外的操作会减慢中断/异常的处理速度
+- M-Mode的**中断/异常处理例程**可以将中断/异常重新**导向 S-Mode**
+- 但是这些额外的操作会**减慢中断/异常的处理速度**
 - RISC-V 提供一种**中断/异常委托机制**，通过该机制可以选择性地将中断/异常交给 S-Mode处理，而**完全绕过 M-Mode**
 
 ---
@@ -776,13 +762,13 @@ OS通过硬件隔离手段（三防）来保障计算机的安全可靠
 ##### S-Mode的中断控制和状态寄存器
 
 - stvec(SupervisorTrapVector)保存发生中断/异常时**要跳转到的地址**
-- sepc(Supervisor Exception PC)指向**发生中断/异常时的指令**
-- scause(Supervisor Exception Cause)指示发生中断/异常的**种类**
 - sie(Supervisor Interrupt Enable)中断**使能**寄存器
 - sip(Supervisor Interrupt Pending)中断**请求**寄存器
+- sstatus(Supervisor Status)保存全局中断以及其他的**状态**
+- sepc(Supervisor Exception PC)指向**发生中断/异常时的指令**
+- scause(Supervisor Exception Cause)指示发生中断/异常的**种类**
 - stval(Supervisor Trap Value)保存陷入(trap)**附加信息**
 - sscratch(Supervisor Scratch)不同mode交换**数据中转站**
-- sstatus(Supervisor Status)保存全局中断以及其他的**状态**
 
 ---
 ##### sstatus寄存器
@@ -810,13 +796,13 @@ scause 寄存器
 
 
 ---
-##### mtvec & stvec 寄存器
+##### stvec 寄存器
 中断/异常向量（trap-vector）基地址寄存器stvec CSR用于配置**trap_handler地址**
  - 包括向量基址（BASE）和向量模式（MODE）：BASE 域中的值按 4 字节对齐
     - MODE = 0 表示一个trap_handler处理所有的中断/异常
     - MODE = 1 表示每个中断/异常有一个对应的trap_handler
 
-mtvec & stvec 寄存器
+ stvec 寄存器
 ![w:1000](figs/rv-tvec.png)
 
 
@@ -859,18 +845,11 @@ mtvec & stvec 寄存器
 ---
 ##### S-Mode中断/异常的硬件响应
 
-**硬件执行内容**
-
-hart 接受了中断/异常，并需要委派给 S-Mode，那么硬件会原子性的经历下面的状态转换
+**硬件执行内容**：hart 接受了中断/异常，并需要委派给 S-Mode，那么硬件会原子性的经历下面的状态转换
 
 1. **发生中断/异常的指令PC**被存入 sepc, 且 PC 被设置为 stvec
 2. scause 设置中断/异常**类型**，stval被设置为出错的地址/异常**相关信息**
 3. 把 sstatus中的 SIE 位置零，**屏蔽中断**， **SIE位之前的值**被保存在 SPIE 位中
-
-
----
-##### S-Mode中断/异常的硬件响应
-
 4. **发生例外前的特权模式**被保存在 sstatus 的 SPP（previous privilege） 域，然后设置当前特权模式为S-Mode
 5. **跳转**到stvec CSR设置的地址继续执行
 
@@ -933,6 +912,30 @@ hart 接受了中断/异常，并需要委派给 S-Mode，那么硬件会原子�
   - PPN 字段保存了**根页表的物理页号**
 ![w:900](figs/satp.png)
 
+<!-- 
+ASID 是一个唯一标识符，用于区分不同进程的虚拟地址空间。每个进程在使用其页表进行内存访问时都会有一个对应的 ASID。
+
+ASID 使得 TLB 能够同时缓存多个进程的地址映射，而无需在每次上下文切换时清空整个 TLB。
+
+ASID 减少了 TLB 刷新需求
+
+如果没有 ASID，每次进程上下文切换后，必须完全刷新 TLB，因为同一虚拟地址可能指向不同的物理地址。这是因为 TLB 缓存的是虚拟到物理地址的映射，没有额外的信息来区分不同进程的映射。
+
+频繁的 TLB 刷新会导致显著的性能开销。这是因为新的内存访问将无法命中已缓存的 TLB 条目，导致更多时间花费在查找和加载新的映射上。
+-->
+---
+##### S-Mode虚存机制
+RISC-V 64 支持以下 **虚拟地址转换方案**：
+
+| **模式** | **虚拟地址位宽** | **页表级数** | **每级索引位数** | **物理地址位宽** |
+| --- | --- | --- | --- | --- |
+| **Sv39** | 39 位 | 3 级 | 9-9-9 | 56 位 |
+| **Sv48** | 48 位 | 4 级 | 9-9-9-9 | 56 位 |
+| **Sv57** | 57 位 | 5 级 | 9-9-9-9-9 | 56 位 |
+
+**注意**：不同的模式仅影响 **虚拟地址的解析**，物理地址仍然受处理器实现的物理地址宽度（通常为 **56 位**）
+
+
 ---
 ##### S-Mode虚存机制
 
@@ -944,20 +947,120 @@ hart 接受了中断/异常，并需要委派给 S-Mode，那么硬件会原子�
 
 ---
 ##### S-Mode虚存的地址转换
-S、U-Mode中虚拟地址会以从根部遍历页表的方式转换为物理地址：
 
-- satp.PPN 给出了**一级页表基址**， VA [31:22] 给出了一级页号，CPU会读取位于地址(satp. PPN × 4096 + VA[31: 22] × 4)页表项。
-- PTE 包含**二级页表基址**，VA[21:12]给出了二级页号，CPU读取位于地址(PTE. PPN × 4096 + VA[21: 12] × 4)叶节点页表项。
-- **叶节点页表项的PPN字段**和页内偏移（原始虚址的最低 12 个有效位）组成了最终结果：物理地址(LeafPTE.PPN×4096+VA[11: 0])
+```
+  38       30  29       21  20       12  11       0
++------------+------------+------------+------------- +
+| VPN[2]     | VPN[1]     | VPN[0]     | Page Offset  |
++------------+------------+------------+------------- +
+  9 bits      9 bits      9 bits      12 bits
+```
 
+- VPN[2], VPN[1], VPN[0]（共 27 位）：L2/1/0三级页表索引。
+- Page Offset（12 位）：页内偏移（4 KiB 页大小）。
+- 页表项（Page Table Entry, PTE）8 bytes
 
 ---
 ##### S-Mode虚存的地址转换
+(1) 读取 satp CSR
+- satp.PPN 给出了**L2页表基地址的 物理页号（Physical Page Number, PPN）。**
+- satp.MODE（4 bits）：8（Sv39）、9（Sv48）、10（Sv57）。
+```
+L2页表基地址 = PPN × 4 KiB
+```
+---
+##### S-Mode虚存的地址转换
+(2) 解析 VPN（Virtual Page Number）
+根据虚拟地址提取 VPN[2], VPN[1], VPN[0]，并进行 3 级页表查询。
+每个页表项（PTE，Page Table Entry）大小为 64-bit，其结构如下：
+```
+  63            10 9   8 7  6 5 4 3 2 1 0
+  +---------------+-----+---+------------ +
+  | PPN (44 bits) | RSW | D | A | X W R V |
+  +---------------+-----+---+------------ +
+```
+- PPN（物理页号）：映射到下一级页表或最终物理页。
+- V（Valid）：有效位，1 表示有效。R/W/X（读/写/执行）：页权限。A/D（Access/Dirty）：访问和修改位。RSW（Reserved for Software） 为软件保留
 
+---
+##### S-Mode虚存的地址转换
+三级地址翻译步骤：
+1.  VPN[2] = VA [38:30], 给出了L2页表的索引号
+```
+ L2页表的页表项(L2-PTE)地址= (satp.PPN × 4 KiB) + (VPN[2] × 8)
+ L2-PTE.PPN = L1页表基址的物理页号
+
+  63            10 9   8 7  6 5 4 3 2 1 0
+  +---------------+-----+---+------------ +
+  | PPN (44 bits) | RSW | D | A | X W R V |
+  +---------------+-----+---+------------ +
+```
+---
+##### S-Mode虚存的地址转换
+三级地址翻译步骤：
+2.  VPN[1] = VA [29:21], 给出了L1页表的索引号
+```
+ L1页表的页表项(L1-PTE)地址= (L2-PTE.PPN × 4 KiB) + (VPN[1] × 8)
+ L1-PTE.PPN = L0页表基址的物理页号
+
+  63            10 9   8 7  6 5 4 3 2 1 0
+  +---------------+-----+---+------------ +
+  | PPN (44 bits) | RSW | D | A | X W R V |
+  +---------------+-----+---+------------ +
+```
+---
+##### S-Mode虚存的地址转换
+三级地址翻译步骤：
+3.  VPN[0] = VA [20:12], 给出了L0页表的索引号
+```
+ L0页表的页表项(L0-PTE)地址= (L1-PTE.PPN × 4 KiB) + (VPN[0] × 8)
+ L0-PTE.PPN = 最终物理地址的物理页号
+
+  63            10 9   8 7  6 5 4 3 2 1 0
+  +---------------+-----+---+------------ +
+  | PPN (44 bits) | RSW | D | A | X W R V |
+  +---------------+-----+---+------------ +
+```
+
+---
+##### S-Mode虚存的地址转换
+4. 计算物理地址
+```
+虚地址对应的最终物理地址 = (L0 PTE.PPN × 4 KiB) + Page Offset
+```
+假设： satp.PPN = 0x12345，
+即L2页表基地址 = 0x12345 × 4 KiB = 0x12345000。
+虚拟地址： 0x0987654321
+           000 1001 1000 0111 0110 1001 0100 0011 0010 0001
+          000100110  000111011  010010100          0011 0010 0001
+VPN[2]=0x026(9 bits) VPN[1]=0x03B(9 bits) VPN[0]=0x094(9 bits)
+Page Offset = 0x321
+
+<!--虚拟地址： 0x1234_5678
+VPN[2] = 0x091（9 bits）
+VPN[1] = 0x234（9 bits）
+VPN[0] = 0x567（9 bits）
+Page Offset = 0x078-->
+
+---
+##### S-Mode虚存的地址转换
+4. 计算物理地址
+- VPN[2]=0x026 VPN[1]=0x03B VPN[0]=0x094
+- 经过三级页表查询：
+  - L2中0x026号PTE 指向 L1 页表（PPN = 0x20000，L1基址）
+  - L1中0x03B号PTE 指向 L0 页表（PPN = 0x30000，L0基址）
+  - L0中0x094号PTE 指向物理页（PPN = 0x40000）
+- 最终 物理地址计算：
+```
+物理地址  = (0x40000 × 4 KiB) + 0x321
+         = 0x40000000 + 0x321
+         = 0x40000321
+```
+<!-- ---
 ![w:650](figs/satp2.png)
 
 
-<!-- ---
+
 ## RISC-V 系统编程：S-Mode下的隔离
 - S-Mode比 U-Mode权限更高，但是比 M-Mode权限低
 - S-Mode下运行的软件不能使用 M-Mode的 CSR 和指令，并受到 PMP 的限制
@@ -973,4 +1076,5 @@ S、U-Mode中虚拟地址会以从根部遍历页表的方式转换为物理地�
 - 了解 RISC-V 的 M-Mode 和 S-Mode 的基本特征
 - 了解OS在 M-Mode 和 S-Mode 下如何访问控制计算机系统
 - 了解不同软件如何在 M-Mode<–>S-Mode<–>U-Mode 之间进行切换
+- 了解虚实地址转换
 

@@ -21,9 +21,9 @@ backgroundColor: white
 <br>
 <br>
 
-2024年春季
+2025年春季
 
-[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/ewvhdy3epbwbkn3n)
+[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?)
 
 ---
 
@@ -540,7 +540,7 @@ http://en.wikipedia.org/wiki/Buddy_memory_allocation -->
   - 把物理地址空间划分为大小相同(2^n)的基本分配单位
 - 逻辑页面（页面、页, Page) 
   - 把逻辑地址空间也划分为相同大小的基本分配单位
-  - **物理页面和逻辑页面的基本单位大小是相同的**
+  - 物理页面和逻辑页面的**基本单位大小是相同的**
 - 逻辑页面到物理页面的对应
   - 逻辑地址到物理地址的地址转换
   - 硬件机制：页表/MMU/TLB
@@ -624,8 +624,11 @@ http://en.wikipedia.org/wiki/Buddy_memory_allocation -->
 ---
 
 ##### 段页式存储管理
+
 - 段式存储在内存保护方面有优势，页式存储在内存利用和优化转移到后备存储方面有优势。
-- 段式存储、页式存储能否结合？
+- 段式存储、页式存储能否结合？段页式存储
+
+
 
 ---
 

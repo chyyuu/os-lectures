@@ -22,7 +22,7 @@ backgroundColor: white
 <br>
 <br>
 
-2024年春季
+2025年春季
 
 ---
 **提纲**
@@ -81,7 +81,7 @@ LibOS目标
 - [GM-NAA I/O System](http://en.wikipedia.org/wiki/GM-NAA_I/O)(1956)
   - 启发：汽车生产线 
 - MULTICS OS(1969,MIT/GE/AT&T)
-  - GE 645 具有 8 级硬件支持的保护环
+  - GE 645 具有8级硬件支持的保护环
  GM-NAA: General Motors and North American Aviation;
  GE： General Electric
 ![bg right:38% 95%](figs/deng-fish.png)
@@ -107,9 +107,6 @@ Ref: [What was the first operating system to be called an "operating system"?](h
 - 实现特权级的**切换**
 
 ![bg right:54% 100%](figs/batch-os.png)
-
-
-
 
 ---
 ##### 编译步骤
@@ -382,7 +379,7 @@ pub extern "C" fn _start() -> ! {
 `user/src/linker.ld`
 
 - 将**程序的起始物理地址**调整为 0x80400000 ，应用程序都会被加载到这个物理地址上运行；
-- 将 _start 所在的 .text.entry 放在整个程序的开头，也就是说批处理系统只要在加载之后**跳转到 0x80400000** 就已经进入了 用户库的入口点，并会在初始化之后跳转到应用程序主逻辑；
+- 将 _start 所在的 .text.entry 放在整个程序的开头，也就是说批处理系统只要在加载之后**跳转到 0x80400000** 就已经进入了用户库的入口点，并会在初始化之后跳转到应用程序主逻辑；
 - 提供了最终生成可执行文件的 .bss 段的起始和终止地址，方便 clear_bss 函数使用。
 
 其余的部分与之前相同
@@ -432,7 +429,7 @@ pub extern "C" fn _start() -> ! {
 ---
 ##### 应用程序的系统调用执行流
 
-- 在子模块 syscall 中，应用程序通过 ecall 调用批处理系统提供的接口
+- 在子模块 syscall 中，应用程序通过ecall调用批处理系统提供的接口
 - ``ecall`` 指令会触发 名为 Environment call from U-mode 的异常
 - Trap 进入 S 模式执行批处理系统针对这个异常特别提供的服务代码
 - a0~a6 保存系统调用的参数， a0 保存返回值, a7 用来传递 syscall ID
@@ -615,13 +612,16 @@ unsafe fn load_app(&self, app_id: usize) {
 }
 ```
 
-
 ---
 ##### 加载应用程序二进制码
 
 - fence.i ：用来清理 i-cache
 
-注:``fence.i``是i-cache屏障(barrier)指令，非特权指令，属于 “Zifencei”扩展规范
+- fence.i 是一条专门用于保持指令缓存一致性的指令，它通常用于程序需要在运行时修改代码或者生成新的代码片段的情境下，确保修改后的代码能够被正确地从内存中取出并执行。
+
+- 对于大多数普通应用程序，不涉及自修改代码或 JIT 编译的场景，fence.i 不会经常被使用。
+
+* 注:``fence.i``是i-cache屏障(barrier)指令，非特权指令，属于 “Zifencei”扩展规范
 
 **WHY？**
 
@@ -633,8 +633,6 @@ unsafe fn load_app(&self, app_id: usize) {
 - CPU 对物理内存所做的缓存又分成d-cache和i-cache
 - OS将修改会被 CPU 取指的内存区域，这会使得 i-cache 中含有与内存中不一致的内容
 - OS在这里必须使用 fence.i 指令手动清空 i-cache ，让里面所有的内容全部失效，才能够**保证CPU访问内存数据和代码的正确性**。
-
-
 
 ---
 
@@ -681,7 +679,7 @@ unsafe fn load_app(&self, app_id: usize) {
 | sstatus | `SPP` 等字段给出 Trap 发生之前 CPU 的特权级（S/U）等 |
 | sepc    | 记录 Trap 发生之前执行的最后一条指令的地址 |
 | scause  | 描述 Trap 的原因      |
-| stval   | 给出 Trap 附加信息      |
+| stval   | 给出 Trap 附加信息（例如出错地址）      |
 | stvec   | 控制 Trap 处理代码的入口地址     |
 
 ---
@@ -1063,6 +1061,34 @@ impl TrapContext {
         cx.set_sp(sp);
         cx
 ```
+
+<!--1. set_sp 方法
+
+功能：这个方法用于设置栈指针（stack pointer, SP）。
+实现：它直接将传入的 sp 值赋给 self.x[2]，假设在这个上下文中，寄存器数组 x 的第 2 个元素是用来存储栈指针的。
+2. app_init_context 函数
+
+目标：初始化一个应用程序的陷阱上下文。
+
+步骤：
+
+let mut sstatus = sstatus::read();
+
+读取当前的状态寄存器 sstatus，这通常涉及到 CPU 特权级别、全局中断使能等状态。
+sstatus.set_spp(SPP::User);
+
+设置陷阱返回时的特权级别为用户模式 (SPP::User)。这意味着当从陷阱返回时，CPU 将进入用户模式。
+let mut cx = Self { ... };
+
+创建一个新的 TrapContext 实例，初始化其内部的寄存器数组 x 为 [0; 32] （表示32个通用寄存器，初始值为0）。同时，将 sstatus 和 sepc 初始化为 sstatus 和 entry 参数。
+sepc 是保存异常发生时的程序计数器地址，通常用于返回处理完异常后继续执行的位置。
+cx.set_sp(sp);
+
+调用方法 set_sp 设置栈指针，确保程序在陷阱返回后有正确的栈环境。
+cx
+
+返回初始化好的 TrapContext 实例。
+-->
 
 
 ---

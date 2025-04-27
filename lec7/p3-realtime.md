@@ -19,9 +19,9 @@ backgroundColor: white
 
 向勇 陈渝 李国良 任炬 
 
-2024年春季
+2025年春季
 
-[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/ewvhdy3epbwbkn3n)
+[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?)
 
 
 ---
@@ -344,7 +344,7 @@ backgroundColor: white
 
 ---
 #### 优先级天花板协议（priority ceiling protocol）
-- 占用资源进程的优先级与所有可能申请该资源的进程的最高优先级相同
+- 占用资源进程的优先级与所有可能申请该资源进程的最高优先级相同
   - 不管是否发生等待,都提升占用资源进程的优先级
   - 优先级高于系统中所有被锁定的资源的优先级上限，任务执行临界区时就不会被阻塞
 

@@ -19,9 +19,9 @@ Address Space OS(ASOS)
 
 向勇 陈渝 李国良 任炬 
 
-2024年春季
+2025年春季
 
-[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/ewvhdy3epbwbkn3n)
+[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?)
 
 
 ---
@@ -717,7 +717,7 @@ ASID域（Address Space IDentifier）为地址空间标识符，标记该项地�
 ##### 物理内存
 
 - 物理内存(RAM 设定位8MB)
-  - 物理内存起始地址：：``0x80000000``
+  - 物理内存起始地址：``0x80000000``
   - 可用物理内存起始地址： ``os/src/linker.ld`` 中``ekernel``地址
   - 物理内存结束地址：``0x80800000``
 - 物理内存中有啥？

@@ -20,9 +20,9 @@ Inter Process Communication, IPC
 
 向勇 陈渝 李国良 任炬 
 
-2024年春季
+2025年春季
 
-[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/ewvhdy3epbwbkn3n)
+[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?)
 
 ---
 
@@ -264,7 +264,7 @@ $ cat name.fifo
 ---
 
 #### 消息队列(Message Queue)
-消息队列是由操作系统维护的以结构数据为基本单位的间接通信机制
+消息队列是由**操作系统维护**的以**结构数据**为基本单位的间接通信机制
 - 每个消息(Message)是一个字节序列，有自己的**类型标识**
 - 相同类型标识的消息组成按**先进先出**顺序组成一个消息队列
 

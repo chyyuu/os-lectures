@@ -19,9 +19,9 @@ backgroundColor: white
 
 向勇 陈渝 李国良 任炬 
 
-2024年春季
+2025年春季
 
-[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/ewvhdy3epbwbkn3n)
+[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?)
 
 ---
 
@@ -107,7 +107,7 @@ backgroundColor: white
 
 ---  
 
-##### 方案一
+##### 方案一：先检查，后留便签
 - 使用便签来避免购买太多面包
   - 购买之前留下一张便签
   - 买完后移除该便签
@@ -139,7 +139,7 @@ backgroundColor: white
 
 ---  
 
-##### 方案二
+##### 方案二：先留便签，后检查
 - 先留便签，后查面包和便签
 ```
 leave Note;
@@ -158,7 +158,7 @@ remove note;
 
 ---  
 
-##### 方案三
+##### 方案三：先留不同便签，后检查
 - 为便签增加标记，以区别不同人的便签
    - 现在可在检查之前留便签
 ```
@@ -172,11 +172,11 @@ if (no note_1) {
 remove note_2;	
 ```
 
-![bg right:50% 100%](figs/method-3.png)
+![bg right:49% 100%](figs/method-3.png)
 
 ---  
 
-##### 方案三
+##### 方案三：先留不同便签，后检查
 - 为便签增加标记，以区别不同人的便签
   - 现在可在检查之前留便签
 ```
@@ -189,7 +189,7 @@ if (no note_2) {
 } 
 remove note_1;
 ```
-![bg right:50% 100%](figs/method-3.png)
+![bg right:49% 100%](figs/method-3.png)
 
 ---  
 
@@ -204,7 +204,7 @@ remove note_1;
 
 ---  
 
-##### 方案四
+##### 方案四：采用不同流程
 两个人采用不同的处理流程
 
 ![w:1000](figs/method-4.png)
@@ -224,7 +224,7 @@ remove note_1;
 
 ---  
 
-##### 方案五
+##### 方案五：采用原子操作
 - 利用两个原子操作实现一个锁(lock)
   -  Lock.Acquire()
      - 在锁被释放前一直等待，然后获得锁
@@ -419,7 +419,24 @@ exit section
 
 ---  
 
-##### 尝试一
+##### 尝试一：根据turn值进入临界区
+![bg right:49% 100%](figs/soft-1.png)
+- 满足“忙则等待”，但是有时不满足“空闲则入”
+```c
+// 线程 Tj
+do {
+   while (turn != j) ;
+   critical section
+   turn = i;
+   remainder section
+} while(1)
+```
+
+
+
+---  
+
+##### 尝试一：根据turn值进入临界区
 ![bg right:50% 100%](figs/soft-1.png)
 - 满足“忙则等待”，但是有时不满足“空闲则入”
    - Ti不在临界区，Tj想要继续运行，但是必须等待Ti进入过临界区后
@@ -430,7 +447,7 @@ exit section
 
 ---  
 
-##### 尝试二
+##### 尝试二：根据flag进入临界区
 ![bg right:50% 100%](figs/soft-2.png)
 - 互相依赖（线程忙等）
 - 不满足“忙则等待”
@@ -449,7 +466,7 @@ do {
 
 ---  
 
-##### 尝试三
+##### 尝试三：根据flag进入临界区
 ![bg right:50% 100%](figs/soft-3.png)
 - 满足“忙则等待”，但是不满足“空闲则入”
   - flag[i]=flag[j]=1
@@ -466,7 +483,7 @@ do {
 
 ---  
 
-##### Peterson算法
+##### Peterson算法 turn+flag
 
 ![bg right:50% 100%](figs/soft-peterson.png)
 - 满足线程Ti和Tj之间互斥的经典的基于软件的解决方法（1981年）
@@ -474,7 +491,7 @@ do {
 
 ---  
 
-##### Peterson算法
+##### Peterson算法 turn+flag
 ```
 // 共享变量
 let mut flag = [false; N]; // 标识进程是否请求进入临界区
@@ -501,7 +518,7 @@ while (true) {
 
 ---  
 
-##### Peterson算法
+##### Peterson算法 turn+flag
 ![bg right:50% 100%](figs/soft-peterson-2.png)
 ```
 //进程Pi
@@ -565,7 +582,7 @@ Eisenberg和McGuire
 
 ---  
 
-##### N线程
+##### N线程 - 初始化
 ```c 
 INITIALIZATION:
 
@@ -578,7 +595,7 @@ for (index=0; index<n; index++) {
 
 ---  
 
-##### N线程
+##### N线程 - 进入临界区
 ```c 
 ENTRY PROTOCOL (for Process i ):
 repeat {//从turn到i是否存在请求进程:若存在，则不断循环，直至不存在这样的进程，将当前进程标记为ACTIVE
@@ -600,7 +617,7 @@ turn = i;//获得turn并处理
 
 ---  
 
-##### N线程
+##### N线程 - 离开临界区
 ```c 
 EXIT PROTOCOL (for Process i ):
 

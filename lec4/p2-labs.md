@@ -21,7 +21,7 @@ backgroundColor: white
 <br>
 <br>
 
-2024年春季
+2025年春季
 
 ---
 
@@ -567,9 +567,9 @@ pub struct TrapContext {
 
 ---
 #### 控制流
-- 程序的控制流 (Flow of Control or Control Flow) --编译原理
+- **程序的控制流** (Flow of Control or Control Flow) --编译原理
     - 以一个程序的指令、语句或基本块为单位的**执行序列**。
-- 处理器的控制流 --计算机组成原理
+- **处理器的控制流** --计算机组成原理
     - 处理器中程序计数器的**控制转移序列**。
 ---
 #### 普通控制流：从应用程序员的角度来看控制流
@@ -668,6 +668,16 @@ pub struct TrapContext {
 ![bg right 95%](figs/task-context.png)
 
 
+<!--
+---
+#### [Möbius strip](https://www.snexplores.org/article/scientists-say-mobius-strip-definition-pronunciation)
+
+a Möbius strip has only one surface.
+
+![bg right 100%](figs/mobius-strip.png)
+
+-->
+
 ---
 ####  Trap控制流切换：恢复运行
 - 一个特殊的函数` __switch()`
@@ -676,10 +686,9 @@ pub struct TrapContext {
 从实现的角度讲， `__switch()` 函数和一个普通的函数之间的核心差别仅仅是它会**换栈** 。
 ![bg right 95%](figs/task-context.png)
 
-
 ---
 #### Trap控制流切换函数`__switch()`
-![w:800](figs/switch.png)
+![w:820](figs/switch.png)
 
 
 ---
@@ -958,9 +967,10 @@ match scause.cause() {
 ### 课程实验一
 
 * 实验任务：增加一个系统调用`sys_task_info()`
-    * [uCore实验一任务描述](https://learningos.github.io/uCore-Tutorial-Guide-2023A/chapter3/5exercise.html#id1)
-    * [rCore实验一任务描述](https://learningos.github.io/rCore-Tutorial-Guide-2023A/chapter3/5exercise.html#chapter3)
+    * [uCore实验一任务描述](https://learningos.github.io/uCore-Tutorial-Guide-2024A/chapter3/5exercise.html#id1)
+    * [rCore实验一任务描述](https://learningos.github.io/rCore-Tutorial-Guide-2024A/chapter3/5exercise.html#chapter3)
 * 实验提交要求
     * 在自己的已创建实验仓库中提交完整的代码和文档；
     * 在荷塘雨课中提交实验一报告链接和commit ID；
-    <!--* 实验截止时间：布置实验任务后的第13天（10月22日24点）；-->
+    * 实验截止时间：布置实验任务后的第13天; 
+  

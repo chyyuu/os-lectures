@@ -21,9 +21,9 @@ backgroundColor: white
 
 <br>
 
-2024年春季
+2025年春季
 
-[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/ewvhdy3epbwbkn3n)
+[课程幻灯片列表](https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?)
 
 ---
 
@@ -33,17 +33,19 @@ backgroundColor: white
   - 向勇 陈渝 李国良 任炬 
 
 ### 助教
-  - 饶淙元、田凯夫、闭浩扬、王拓为、苏明贤、黄旺、郝子胥
-
+  - 饶淙元、胡柯洋、闭浩扬、王拓为、苏明贤、黄旺、郝子胥、朱懿
+  - [AI助教](https://www.coze.com/store/agent/7466038346734387217?bot_id=true)
 ---
 
 ## 上课信息
 
 ### 上课时间地点
 - 时间
-  - 星期一 第2大节 上午09:50-12:15 (1-16周) 
+  - 周一上午第2节(09:50-12:15) 
 - 地点
-   - 六教6A209（任）六教6A211（李）六教6A213（陈）
+   - 李国良课堂：舜德/经管西楼302
+   - 任  炬课堂：舜德/经管西楼301
+   - 陈  渝课堂：三教1103
 
 ----
 
@@ -71,7 +73,7 @@ backgroundColor: white
 ---
 
 #### 课程参考
-- [课程幻灯片](https://www.yuque.com/xyong-9fuoz/qczol5/ewvhdy3epbwbkn3n)
+- [课程幻灯片](https://www.yuque.com/xyong-9fuoz/qczol5/glemuu?)
 - 参考书
   - [Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/)
   - [深入了解计算机系统](https://hansimov.gitbook.io/csapp/)
@@ -88,20 +90,20 @@ backgroundColor: white
 
 #### uCore Tutorial
 
-- [实验代码](https://github.com/LearningOS/uCore-Tutorial-Code-2024S/)
-- [实验文档](https://learningos.github.io/uCore-Tutorial-Guide-2024S/)
-- [测试用例](https://github.com/LearningOS/uCore-Tutorial-Test-2024S/)
+- [实验代码](https://github.com/LearningOS/uCore-Tutorial-Code-2025S/)
+- [实验文档](https://learningos.github.io/uCore-Tutorial-Guide-2025S/)
+- [测试用例](https://github.com/LearningOS/uCore-Tutorial-Test-2025S/)
 
 ---
 
 ### 实验指导
 
 * rCore Tutorial
-  - [实验文档](https://learningos.github.io/rCore-Tutorial-Guide-2024S/)
-  - [API文档](https://github.com/LearningOS/rCore-Tutorial-Guide-2024S/#os-api-docs-of-rcore-tutorial-code-2022a) 
-  - [实验代码](https://github.com/LearningOS/rCore-Tutorial-Code-2024S)
-  - [测试用例](https://github.com/LearningOS/rCore-Tutorial-Test-2024S)
-* [uCore和rCore实验帮助](https://www.yuque.com/xyong-9fuoz/qczol5/lt5qafszpz62hob1?singleDoc)
+  - [实验文档](https://learningos.github.io/rCore-Tutorial-Guide-2025S/)
+  - [API文档](https://github.com/LearningOS/rCore-Tutorial-Guide-2025S/#os-api-docs-of-rcore-tutorial-code-2022a) 
+  - [实验代码](https://github.com/LearningOS/rCore-Tutorial-Code-2025S)
+  - [测试用例](https://github.com/LearningOS/rCore-Tutorial-Test-2025S)
+* [uCore和rCore实验帮助](https://www.yuque.com/xyong-9fuoz/qczol5/ztzg6v1h3v2g4zcx)
   - 讲解视频
   - 部分内容将逐步更新
 
@@ -171,14 +173,13 @@ backgroundColor: white
 
 ### 选择1：（总分不超过100） 
   - 实验一~五必做题目： 40% ；期中考试 20% ； 期末考试 40%
-    - 可选做其他实验（如果觉得实验一-实验五不能得到40分），但实验总分不超过40分
-  - 加分：
-    - 平时作业：每做一次平时作业加1分，最高加5分，且课程总评成绩总分不超过100分
+  - 平时作业加分：每做一次平时作业加0.5分，最高加5分，且课程总评成绩总分不超过100分
+  - 选做实验题加分：每做一个选做实验题，可得到相应分值，但是选做+必做实验题的总分不超过40分
 
 ---
 
 ### 选择2： 
-  - 四周内完成实验一~五(2023秋季实验)：40% 
+  - 四周内完成实验一~五(2025春实验)：40% 
   - 课程设计（即大实验）：60%
 
 **注：选择大实验的同学如果后续退出课程设计，需参加考试。**
@@ -187,6 +188,6 @@ backgroundColor: white
 
 ## 调查问卷
 
-[2024年春季学期操作系统课选课问卷](http://oscourse2019.mikecrm.com/TdGsawl)
-访问密码：tn6m1HK
+[2025年春学期操作系统课选课问卷](http://oscourse2019.mikecrm.com/kwIY4Ti)
+访问密码：D7t1y5w4r
 请大家在第一节课后尽快填写问卷，以便我们更好地上好课。
